@@ -1,7 +1,7 @@
 
 
 ```python
-import pandas as pd
+# Applying K-Nearest Neighbors: Predicting Car Prices
 import numpy as np
 from sklearn.model_selection import cross_val_score, KFold
 from sklearn.neighbors import KNeighborsRegressor
@@ -18,179 +18,8 @@ cars = pd.read_csv('Automobiles-Data1.csv')
 cars.head(5)
 test_cars = pd.read_csv('Automobiles-Testing1.csv')
 test_cars.head(5)
+# As you can see the data is a little messy. 
 ```
-
-
-
-
-<div>
-<style>
-    .dataframe thead tr:only-child th {
-        text-align: right;
-    }
-
-    .dataframe thead th {
-        text-align: left;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>symboling</th>
-      <th>normalized-losses</th>
-      <th>make</th>
-      <th>fuel-type</th>
-      <th>aspiration</th>
-      <th>num-of-doors</th>
-      <th>body-style</th>
-      <th>drive-wheels</th>
-      <th>engine-location</th>
-      <th>wheel-base</th>
-      <th>...</th>
-      <th>num-of-cylinders</th>
-      <th>engine-size</th>
-      <th>fuel-system</th>
-      <th>bore</th>
-      <th>stroke</th>
-      <th>compression-ratio</th>
-      <th>horsepower</th>
-      <th>peak-rpm</th>
-      <th>city-mpg</th>
-      <th>highway-mpg</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>-2</td>
-      <td>103</td>
-      <td>volvo</td>
-      <td>gas</td>
-      <td>std</td>
-      <td>four</td>
-      <td>sedan</td>
-      <td>rwd</td>
-      <td>front</td>
-      <td>104.3</td>
-      <td>...</td>
-      <td>four</td>
-      <td>141</td>
-      <td>mpfi</td>
-      <td>3.78</td>
-      <td>3.15</td>
-      <td>9.5</td>
-      <td>114</td>
-      <td>5400</td>
-      <td>23</td>
-      <td>28</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>-1</td>
-      <td>74</td>
-      <td>volvo</td>
-      <td>gas</td>
-      <td>std</td>
-      <td>four</td>
-      <td>wagon</td>
-      <td>rwd</td>
-      <td>front</td>
-      <td>104.3</td>
-      <td>...</td>
-      <td>four</td>
-      <td>141</td>
-      <td>mpfi</td>
-      <td>3.78</td>
-      <td>3.15</td>
-      <td>9.5</td>
-      <td>114</td>
-      <td>5400</td>
-      <td>23</td>
-      <td>28</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>-1</td>
-      <td>95</td>
-      <td>volvo</td>
-      <td>gas</td>
-      <td>std</td>
-      <td>four</td>
-      <td>sedan</td>
-      <td>rwd</td>
-      <td>front</td>
-      <td>109.1</td>
-      <td>...</td>
-      <td>four</td>
-      <td>141</td>
-      <td>mpfi</td>
-      <td>3.78</td>
-      <td>3.15</td>
-      <td>9.5</td>
-      <td>114</td>
-      <td>5400</td>
-      <td>23</td>
-      <td>28</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>-1</td>
-      <td>95</td>
-      <td>volvo</td>
-      <td>gas</td>
-      <td>turbo</td>
-      <td>four</td>
-      <td>sedan</td>
-      <td>rwd</td>
-      <td>front</td>
-      <td>109.1</td>
-      <td>...</td>
-      <td>four</td>
-      <td>141</td>
-      <td>mpfi</td>
-      <td>3.78</td>
-      <td>3.15</td>
-      <td>8.7</td>
-      <td>160</td>
-      <td>5300</td>
-      <td>19</td>
-      <td>25</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>-1</td>
-      <td>95</td>
-      <td>volvo</td>
-      <td>diesel</td>
-      <td>turbo</td>
-      <td>four</td>
-      <td>sedan</td>
-      <td>rwd</td>
-      <td>front</td>
-      <td>109.1</td>
-      <td>...</td>
-      <td>six</td>
-      <td>145</td>
-      <td>idi</td>
-      <td>3.01</td>
-      <td>3.40</td>
-      <td>23.0</td>
-      <td>106</td>
-      <td>4800</td>
-      <td>26</td>
-      <td>27</td>
-    </tr>
-  </tbody>
-</table>
-<p>5 rows × 25 columns</p>
-</div>
-
-
 
 
 ```python
@@ -199,6 +28,8 @@ test_ordinal_values_cols = ['normalized-losses', 'wheel-base', 'length', 'width'
 car_features = cars[ordinal_values_cols]
 test_car_features = test_cars[test_ordinal_values_cols]
 test_car_features.head(5)
+#When training a predictive model, it is important to not have any missing values. Based on the data set preview from the last step, I can tell that the normalized-losses column contains missing values represented using "?". 
+#Let's replace these values and look for the presence of missing values in other numeric columns. Let's also normalize the values in all numeric columns so they have a value between zero and one. That way very large values will not have a greater influence, and everything will be relative.
 ```
 
 
@@ -335,6 +166,7 @@ test_car_features = test_car_features.astype(float)
 car_features.shape[0]
 #test_car_features.shape[0]
 test_car_features.head(5)
+
 ```
 
     C:\ProgramData\Anaconda3\lib\site-packages\ipykernel_launcher.py:2: SettingWithCopyWarning: 
@@ -477,6 +309,8 @@ test_car_features.head(5)
 car_features = car_features.dropna(subset=['price'])
 test_car_features.isnull().sum()
 car_features.isnull().sum()
+#Lets detemine how many rows have missing values and in which columns these missing values exist. 
+#If it is a significant quantity, I might need to drop the column, otherwise I will just replace missing values with the average.
 ```
 
 
@@ -507,6 +341,7 @@ car_features = car_features.fillna(car_features.mean())
 test_car_features = test_car_features.fillna(test_car_features.mean())
 test_car_features.isnull().sum()
 car_features.isnull().sum()
+#With those rows disposed off, I will replace any remaining null values with the mean value of their respective column.
 ```
 
 
@@ -533,6 +368,7 @@ car_features.isnull().sum()
 
 ```python
 test_car_features.head(5)
+#Fantastic! No more missing data! Now it is time to normalise the data so that they all scale between 0 and 1. The only column I don't want to normalise it the price, as this is the label I will be using for my predictions.
 ```
 
 
@@ -798,6 +634,7 @@ features_labels.head(5)
 
 
 ```python
+#Univariant K-nearest Neighbours Model
 def knn_train_test(df, feature_columns, label_columns,k_range):
     """Instantiate a K-nearest neighbours model and fit
     with data provided
@@ -971,6 +808,9 @@ plt.show
 
 
 ```python
+#The plot above shows that an optimum k value exists above 3, and the safest bet would be around a value of 5. 
+#The columns with the lowest error are 'Horsepower', 'width', 'curb-weight', 'highway-mpg', and 'length'. 
+#This is possibly suggesting how well known measures of performance, miles per gallon and horsepower, have a powerful influence over price. The other attribute is the size of the vehicle.
 four_best_features = ['horsepower', 'width', 'curb-weight', 'highway-mpg']
 ```
 
@@ -982,6 +822,7 @@ rmse_results = {}
 
 
 ```python
+#I will now increase the number of features and then plot the results to find the optimum number of features to use
 two_best_features = ['horsepower', 'highway-mpg']
 three_best_features = ['horsepower', 'width', 'highway-mpg']
 four_best_features = ['horsepower', 'width', 'curb-weight', 'city-mpg']
@@ -1029,6 +870,8 @@ plt.show()
 
 
 ```python
+#From the graph above it is clear that the optimum number of features is 4. 
+#I will now vary the k value between 1 and 25 for both these features and then plot the results to find the optimum model
 k = np.arange(1,26,1)
 rmse_values_three = knn_train_test(features_labels, three_best_features, 'price',k)
 rmse_values_four = knn_train_test(features_labels, four_best_features, 'price',k)
@@ -1065,6 +908,7 @@ plt.show
 
 
 ```python
+#K-Fold Cross Validation
 kf = KFold(n_splits=5,shuffle=True,random_state=1)
 knn = KNeighborsRegressor(n_neighbors=1)
 mses = cross_val_score(knn,features_labels[four_best_features],features_labels['price'],scoring='neg_mean_squared_error',cv=kf)
@@ -1082,6 +926,8 @@ avg_rmses
 
 
 ```python
+#Interestingly the RMSE was higher than observed when using test/train validation. This might demonstrate that some bias was being made towards the fixed training set I was using. 
+#Lets use cross validation to see what the optimum k value is when using the four feature model:
 k_vals = np.arange(1,26,1)
 avg_rmses= {}
 for k in k_vals:
@@ -1105,6 +951,7 @@ plt.show()
 
 
 ```python
+#Lets predict the test data 
 knn = KNeighborsRegressor(n_neighbors=1)
 #Fit the model with our data
 knn.fit(features_labels[four_best_features],features_labels['price'])
@@ -1119,5 +966,6 @@ test_features_labels['price'] = predictions
 
 
 ```python
+#Save the predictions to the CSV
 test_features_labels.to_csv('out.csv')
 ```
