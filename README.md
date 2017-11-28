@@ -2,6 +2,7 @@
 
 ```python
 # Applying K-Nearest Neighbors: Predicting Car Prices
+import pandas as pd
 import numpy as np
 from sklearn.model_selection import cross_val_score, KFold
 from sklearn.neighbors import KNeighborsRegressor
@@ -15,9 +16,9 @@ import matplotlib.pyplot as plt
 
 ```python
 cars = pd.read_csv('Automobiles-Data1.csv')
-cars.head(5)
 test_cars = pd.read_csv('Automobiles-Testing1.csv')
-test_cars.head(5)
+#test_cars.head(5)
+cars.head(5)
 # As you can see the data is a little messy. 
 ```
 
@@ -53,7 +54,6 @@ test_cars.head(5)
       <th>engine-location</th>
       <th>wheel-base</th>
       <th>...</th>
-      <th>num-of-cylinders</th>
       <th>engine-size</th>
       <th>fuel-system</th>
       <th>bore</th>
@@ -63,132 +63,133 @@ test_cars.head(5)
       <th>peak-rpm</th>
       <th>city-mpg</th>
       <th>highway-mpg</th>
+      <th>price</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>0</th>
-      <td>-2</td>
-      <td>103</td>
-      <td>volvo</td>
+      <td>3</td>
+      <td>?</td>
+      <td>alfa-romero</td>
       <td>gas</td>
       <td>std</td>
-      <td>four</td>
-      <td>sedan</td>
+      <td>two</td>
+      <td>convertible</td>
       <td>rwd</td>
       <td>front</td>
-      <td>104.3</td>
+      <td>88.6</td>
       <td>...</td>
-      <td>four</td>
-      <td>141</td>
+      <td>130</td>
       <td>mpfi</td>
-      <td>3.78</td>
-      <td>3.15</td>
-      <td>9.5</td>
-      <td>114</td>
-      <td>5400</td>
-      <td>23</td>
-      <td>28</td>
+      <td>3.47</td>
+      <td>2.68</td>
+      <td>9.0</td>
+      <td>111</td>
+      <td>5000</td>
+      <td>21</td>
+      <td>27</td>
+      <td>13495</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>-1</td>
-      <td>74</td>
-      <td>volvo</td>
+      <td>3</td>
+      <td>?</td>
+      <td>alfa-romero</td>
       <td>gas</td>
       <td>std</td>
-      <td>four</td>
-      <td>wagon</td>
+      <td>two</td>
+      <td>convertible</td>
       <td>rwd</td>
       <td>front</td>
-      <td>104.3</td>
+      <td>88.6</td>
       <td>...</td>
-      <td>four</td>
-      <td>141</td>
+      <td>130</td>
       <td>mpfi</td>
-      <td>3.78</td>
-      <td>3.15</td>
-      <td>9.5</td>
-      <td>114</td>
-      <td>5400</td>
-      <td>23</td>
-      <td>28</td>
+      <td>3.47</td>
+      <td>2.68</td>
+      <td>9.0</td>
+      <td>111</td>
+      <td>5000</td>
+      <td>21</td>
+      <td>27</td>
+      <td>16500</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>-1</td>
-      <td>95</td>
-      <td>volvo</td>
+      <td>1</td>
+      <td>?</td>
+      <td>alfa-romero</td>
+      <td>gas</td>
+      <td>std</td>
+      <td>two</td>
+      <td>hatchback</td>
+      <td>rwd</td>
+      <td>front</td>
+      <td>94.5</td>
+      <td>...</td>
+      <td>152</td>
+      <td>mpfi</td>
+      <td>2.68</td>
+      <td>3.47</td>
+      <td>9.0</td>
+      <td>154</td>
+      <td>5000</td>
+      <td>19</td>
+      <td>26</td>
+      <td>16500</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2</td>
+      <td>164</td>
+      <td>audi</td>
       <td>gas</td>
       <td>std</td>
       <td>four</td>
       <td>sedan</td>
-      <td>rwd</td>
+      <td>fwd</td>
       <td>front</td>
-      <td>109.1</td>
+      <td>99.8</td>
       <td>...</td>
-      <td>four</td>
-      <td>141</td>
+      <td>109</td>
       <td>mpfi</td>
-      <td>3.78</td>
-      <td>3.15</td>
-      <td>9.5</td>
-      <td>114</td>
-      <td>5400</td>
-      <td>23</td>
-      <td>28</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>-1</td>
-      <td>95</td>
-      <td>volvo</td>
-      <td>gas</td>
-      <td>turbo</td>
-      <td>four</td>
-      <td>sedan</td>
-      <td>rwd</td>
-      <td>front</td>
-      <td>109.1</td>
-      <td>...</td>
-      <td>four</td>
-      <td>141</td>
-      <td>mpfi</td>
-      <td>3.78</td>
-      <td>3.15</td>
-      <td>8.7</td>
-      <td>160</td>
-      <td>5300</td>
-      <td>19</td>
-      <td>25</td>
+      <td>3.19</td>
+      <td>3.4</td>
+      <td>10.0</td>
+      <td>102</td>
+      <td>5500</td>
+      <td>24</td>
+      <td>30</td>
+      <td>13950</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>-1</td>
-      <td>95</td>
-      <td>volvo</td>
-      <td>diesel</td>
-      <td>turbo</td>
+      <td>2</td>
+      <td>164</td>
+      <td>audi</td>
+      <td>gas</td>
+      <td>std</td>
       <td>four</td>
       <td>sedan</td>
-      <td>rwd</td>
+      <td>4wd</td>
       <td>front</td>
-      <td>109.1</td>
+      <td>99.4</td>
       <td>...</td>
-      <td>six</td>
-      <td>145</td>
-      <td>idi</td>
-      <td>3.01</td>
-      <td>3.40</td>
-      <td>23.0</td>
-      <td>106</td>
-      <td>4800</td>
-      <td>26</td>
-      <td>27</td>
+      <td>136</td>
+      <td>mpfi</td>
+      <td>3.19</td>
+      <td>3.4</td>
+      <td>8.0</td>
+      <td>115</td>
+      <td>5500</td>
+      <td>18</td>
+      <td>22</td>
+      <td>17450</td>
     </tr>
   </tbody>
 </table>
-<p>5 rows × 25 columns</p>
+<p>5 rows × 26 columns</p>
 </div>
 
 
