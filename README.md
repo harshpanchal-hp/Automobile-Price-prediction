@@ -22,6 +22,178 @@ test_cars.head(5)
 ```
 
 
+
+
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>symboling</th>
+      <th>normalized-losses</th>
+      <th>make</th>
+      <th>fuel-type</th>
+      <th>aspiration</th>
+      <th>num-of-doors</th>
+      <th>body-style</th>
+      <th>drive-wheels</th>
+      <th>engine-location</th>
+      <th>wheel-base</th>
+      <th>...</th>
+      <th>num-of-cylinders</th>
+      <th>engine-size</th>
+      <th>fuel-system</th>
+      <th>bore</th>
+      <th>stroke</th>
+      <th>compression-ratio</th>
+      <th>horsepower</th>
+      <th>peak-rpm</th>
+      <th>city-mpg</th>
+      <th>highway-mpg</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>-2</td>
+      <td>103</td>
+      <td>volvo</td>
+      <td>gas</td>
+      <td>std</td>
+      <td>four</td>
+      <td>sedan</td>
+      <td>rwd</td>
+      <td>front</td>
+      <td>104.3</td>
+      <td>...</td>
+      <td>four</td>
+      <td>141</td>
+      <td>mpfi</td>
+      <td>3.78</td>
+      <td>3.15</td>
+      <td>9.5</td>
+      <td>114</td>
+      <td>5400</td>
+      <td>23</td>
+      <td>28</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>-1</td>
+      <td>74</td>
+      <td>volvo</td>
+      <td>gas</td>
+      <td>std</td>
+      <td>four</td>
+      <td>wagon</td>
+      <td>rwd</td>
+      <td>front</td>
+      <td>104.3</td>
+      <td>...</td>
+      <td>four</td>
+      <td>141</td>
+      <td>mpfi</td>
+      <td>3.78</td>
+      <td>3.15</td>
+      <td>9.5</td>
+      <td>114</td>
+      <td>5400</td>
+      <td>23</td>
+      <td>28</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-1</td>
+      <td>95</td>
+      <td>volvo</td>
+      <td>gas</td>
+      <td>std</td>
+      <td>four</td>
+      <td>sedan</td>
+      <td>rwd</td>
+      <td>front</td>
+      <td>109.1</td>
+      <td>...</td>
+      <td>four</td>
+      <td>141</td>
+      <td>mpfi</td>
+      <td>3.78</td>
+      <td>3.15</td>
+      <td>9.5</td>
+      <td>114</td>
+      <td>5400</td>
+      <td>23</td>
+      <td>28</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-1</td>
+      <td>95</td>
+      <td>volvo</td>
+      <td>gas</td>
+      <td>turbo</td>
+      <td>four</td>
+      <td>sedan</td>
+      <td>rwd</td>
+      <td>front</td>
+      <td>109.1</td>
+      <td>...</td>
+      <td>four</td>
+      <td>141</td>
+      <td>mpfi</td>
+      <td>3.78</td>
+      <td>3.15</td>
+      <td>8.7</td>
+      <td>160</td>
+      <td>5300</td>
+      <td>19</td>
+      <td>25</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>-1</td>
+      <td>95</td>
+      <td>volvo</td>
+      <td>diesel</td>
+      <td>turbo</td>
+      <td>four</td>
+      <td>sedan</td>
+      <td>rwd</td>
+      <td>front</td>
+      <td>109.1</td>
+      <td>...</td>
+      <td>six</td>
+      <td>145</td>
+      <td>idi</td>
+      <td>3.01</td>
+      <td>3.40</td>
+      <td>23.0</td>
+      <td>106</td>
+      <td>4800</td>
+      <td>26</td>
+      <td>27</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 25 columns</p>
+</div>
+
+
+
+
 ```python
 ordinal_values_cols = ['normalized-losses', 'wheel-base', 'length', 'width', 'height', 'curb-weight', 'bore', 'stroke', 'compression-ratio', 'horsepower', 'peak-rpm', 'city-mpg', 'highway-mpg', 'price']
 test_ordinal_values_cols = ['normalized-losses', 'wheel-base', 'length', 'width', 'height', 'curb-weight', 'bore', 'stroke', 'compression-ratio', 'horsepower', 'peak-rpm', 'city-mpg', 'highway-mpg']
