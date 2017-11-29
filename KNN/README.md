@@ -339,20 +339,7 @@ test_car_features = test_car_features.astype(float)
 car_features.shape[0]
 #test_car_features.shape[0]
 test_car_features.head(5)
-
 ```
-
-    C:\ProgramData\Anaconda3\lib\site-packages\ipykernel_launcher.py:2: SettingWithCopyWarning: 
-    A value is trying to be set on a copy of a slice from a DataFrame
-    
-    See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stable/indexing.html#indexing-view-versus-copy
-      
-    C:\ProgramData\Anaconda3\lib\site-packages\ipykernel_launcher.py:3: SettingWithCopyWarning: 
-    A value is trying to be set on a copy of a slice from a DataFrame
-    
-    See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stable/indexing.html#indexing-view-versus-copy
-      This is separate from the ipykernel package so we can avoid doing imports until
-    
 
 
 
@@ -514,7 +501,6 @@ car_features = car_features.fillna(car_features.mean())
 test_car_features = test_car_features.fillna(test_car_features.mean())
 test_car_features.isnull().sum()
 car_features.isnull().sum()
-#With those rows disposed off, I will replace any remaining null values with the mean value of their respective column.
 ```
 
 
@@ -840,38 +826,6 @@ def knn_train_test(df, feature_columns, label_columns,k_range):
 
 
 ```python
-def knn_test_test(df, feature_columns, label_columns,k_range):
-    """Instantiate a K-nearest neighbours model and fit
-    with data provided
-    Keyword Arguments:
-    df -- Pandas dataframe
-    feature_columns -- columns containing feature elements
-    label_columns -- columns containing labels
-    k_range -- k values for knn parameters"""
-    rmse_values = {}
-    #Randomise the dataset
-    np.random.seed(1)
-    df = df.reindex(np.random.permutation(df.index))
-    #Split the data evenly into test set and train set
-    split_idx = int(df.shape[0]/2)
-    train = df.iloc[0:split_idx]
-    test = df.iloc[split_idx:]
-    for k in k_range:
-        #Instantiate the KNeighborsRegressor class
-        knn = KNeighborsRegressor(n_neighbors=k)
-        #Fit the model with our data
-        knn.fit(train[feature_columns], train[label_columns])
-        #Make predictions using the test features
-        predictions = knn.predict(test[feature_columns])
-        #Calculate the mean squared error of our prediction
-        mse = mean_squared_error(test[label_columns], predictions)
-        #Return the RMSE by taking the square root of the MSE
-        rmse_values[k] = (np.sqrt(mse))
-    return rmse_values
-```
-
-
-```python
 feature_columns = features_labels.columns.drop('price')
 column_rmse_values = {}
 for col in feature_columns:
@@ -954,7 +908,6 @@ column_rmse_values
 
 
 ```python
-
 fig = plt.figure(figsize=(10,8))
 for k,v in column_rmse_values.items():
     ax = plt.subplot(111)
@@ -976,7 +929,7 @@ plt.show
 
 
 
-![png](output_11_1.png)
+![png](output_10_1.png)
 
 
 
@@ -1038,7 +991,7 @@ plt.show()
 ```
 
 
-![png](output_15_0.png)
+![png](output_14_0.png)
 
 
 
@@ -1076,7 +1029,7 @@ plt.show
 
 
 
-![png](output_17_1.png)
+![png](output_16_1.png)
 
 
 
@@ -1116,10 +1069,19 @@ ax.set_xlabel('k value')
 ax.set_ylabel('RMSE')
 ax.plot(x,y)
 plt.show()
+k_vals
 ```
 
 
-![png](output_19_0.png)
+![png](output_18_0.png)
+
+
+
+
+
+    array([ 1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16, 17,
+           18, 19, 20, 21, 22, 23, 24, 25])
+
 
 
 
@@ -1134,11 +1096,145 @@ predictions = knn.predict(test_features_labels[four_best_features])
 
 
 ```python
-test_features_labels['price'] = predictions
+test_car_features['price'] = predictions
 ```
 
 
 ```python
+test_car_features.head()
+```
+
+
+
+
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>normalized-losses</th>
+      <th>wheel-base</th>
+      <th>length</th>
+      <th>width</th>
+      <th>height</th>
+      <th>curb-weight</th>
+      <th>bore</th>
+      <th>stroke</th>
+      <th>compression-ratio</th>
+      <th>horsepower</th>
+      <th>peak-rpm</th>
+      <th>city-mpg</th>
+      <th>highway-mpg</th>
+      <th>price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>103.0</td>
+      <td>104.3</td>
+      <td>188.8</td>
+      <td>67.2</td>
+      <td>56.2</td>
+      <td>2912.0</td>
+      <td>3.78</td>
+      <td>3.15</td>
+      <td>9.5</td>
+      <td>114.0</td>
+      <td>5400.0</td>
+      <td>23.0</td>
+      <td>28.0</td>
+      <td>13200.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>74.0</td>
+      <td>104.3</td>
+      <td>188.8</td>
+      <td>67.2</td>
+      <td>57.5</td>
+      <td>3034.0</td>
+      <td>3.78</td>
+      <td>3.15</td>
+      <td>9.5</td>
+      <td>114.0</td>
+      <td>5400.0</td>
+      <td>23.0</td>
+      <td>28.0</td>
+      <td>13200.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>95.0</td>
+      <td>109.1</td>
+      <td>188.8</td>
+      <td>68.9</td>
+      <td>55.5</td>
+      <td>2952.0</td>
+      <td>3.78</td>
+      <td>3.15</td>
+      <td>9.5</td>
+      <td>114.0</td>
+      <td>5400.0</td>
+      <td>23.0</td>
+      <td>28.0</td>
+      <td>13200.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>95.0</td>
+      <td>109.1</td>
+      <td>188.8</td>
+      <td>68.8</td>
+      <td>55.5</td>
+      <td>3049.0</td>
+      <td>3.78</td>
+      <td>3.15</td>
+      <td>8.7</td>
+      <td>160.0</td>
+      <td>5300.0</td>
+      <td>19.0</td>
+      <td>25.0</td>
+      <td>16503.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>95.0</td>
+      <td>109.1</td>
+      <td>188.8</td>
+      <td>68.9</td>
+      <td>55.5</td>
+      <td>3217.0</td>
+      <td>3.01</td>
+      <td>3.40</td>
+      <td>23.0</td>
+      <td>106.0</td>
+      <td>4800.0</td>
+      <td>26.0</td>
+      <td>27.0</td>
+      <td>16900.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
 #Save the predictions to the CSV
-test_features_labels.to_csv('out.csv')
+test_car_features.to_csv('knn_out.csv')
 ```
